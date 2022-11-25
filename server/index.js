@@ -3,7 +3,7 @@ const app = require('./app');
 const mongoose = require('mongoose');
 
 let mongoURL = process.env.MONGODB_URL;
-mongoURL.replace('<password>', process.env.DB_PASSWORD)
+mongoURL = mongoURL.replace('<password>', process.env.DB_PASSWORD)
 
 mongoose.connect(mongoURL, {
   useNewUrlParser: true,
