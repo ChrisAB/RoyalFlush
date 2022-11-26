@@ -31,12 +31,18 @@ exports.processImage = catchAsync(async (req, res, next) => {
 
         ParkingSpot.updateMany({
           parkingArea: parkingArea._id,
-          coordinatesInImage: { x: { $in: coordinateList.map(x => x[0]) }, y: { $in: coordinateList.map(x => x[1]) } }
+          coordinatesInImage: {
+            X1: { $in: coordinateList.map(x => x[0]) }, Y1: { $in: coordinateList.map(x => x[1]) },
+            X2: { $in: coordinateList.map(x => x[2]) }, Y2: { $in: coordinateList.map(x => x[3]) }
+          }
         },
           { isOccupied: true });
         ParkingSpot.updateMany({
           parkingArea: parkingArea._id,
-          coordinatesInImage: { x: { $nin: coordinateList.map(x => x[0]) }, y: { $nin: coordinateList.map(x => x[1]) } }
+          coordinatesInImage: {
+            X1: { $nin: coordinateList.map(x => x[0]) }, Y1: { $nin: coordinateList.map(x => x[1]) },
+            X2: { $nin: coordinateList.map(x => x[2]) }, Y2: { $nin: coordinateList.map(x => x[3]) }
+          }
         },
           { isOccupied: false });
       });
