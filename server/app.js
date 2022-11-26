@@ -49,11 +49,11 @@ app.use(hpp());
 // Serving static files
 app.use(express.static(`${__dirname}/public`));
 
-app.use('/api/v1/image/process', imageProcessingController.processImage);
+app.post('/api/v1/image/process', imageProcessingController.processImage);
 app.post('/api/v1/parkingArea', parkingAreaController.createParkingArea);
-app.get('/api/v1/parkingArea',parkingAreaController.getParkingArea);
-app.get('/api/v1/parkingSpot/:id',parkingSpotController.getParkingSpotsFromArea);
-app.get('/api/v1/parkingSpot/',parkingSpotController.getAllParkingSpots);
+app.get('/api/v1/parkingArea', parkingAreaController.getParkingArea);
+app.get('/api/v1/parkingSpot/:id', parkingSpotController.getParkingSpotsFromArea);
+app.get('/api/v1/parkingSpot/', parkingSpotController.getAllParkingSpots);
 
 app.use('/api/v1/check', (req, res, next) => {
   res.status(200).json({});
