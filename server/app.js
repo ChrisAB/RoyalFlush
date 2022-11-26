@@ -9,6 +9,9 @@ const cors = require('cors');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
+const imageProcessingController = require('./controllers/imageProcessingController');
+const parkingAreaController = require('./controllers/parkingAreaController');
+
 const app = express();
 
 const corsOptions = {
@@ -43,6 +46,9 @@ app.use(hpp());
 
 // Serving static files
 app.use(express.static(`${__dirname}/public`));
+
+app.use('/api/v1/image/process', imageProcessingController.processImage);
+app.post('/api/v1/parkingArea', parkingAreaController.createParkingArea);
 
 app.use('/api/v1/check', (req, res, next) => {
   res.status(200).json({});

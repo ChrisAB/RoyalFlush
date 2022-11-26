@@ -11,8 +11,8 @@ const parkingAreaSchema = new Schema({
   totalNumberOfSpots: { type: Number, required: true, min: 1, max: 2048 },
   numberOfFreeSpots: { type: Number, required: true, min: 1, max: 2048 },
   parkingCategory: { type: String },
-  positionFilePath: { type: String, required: true },
-  identificationNumber: { type: String, required: true }
+  positionFile: { type: Buffer, required: true },
+  identificationNumber: { type: String, required: true, unique: true }
 });
 
 const ParkingArea = mongoose.model("ParkingArea", parkingAreaSchema);
