@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom"
-import Street from "./assets/3042.jpg"
+import Street from "./Assets/3042.jpg"
 function LandingPageButton() {
 
     return <Link to="/maps" class="nav-link">
