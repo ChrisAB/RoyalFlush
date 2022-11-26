@@ -1,5 +1,8 @@
 import React from 'react';
-import { Map } from './Components/Map/Map'
+import {Map} from './Components/Map/Map'
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import HomePage from "./HomePage";
+import Particle from './Components/Particle';
 
 export interface parkingSpotSchema {
   coordinates: {
@@ -26,11 +29,15 @@ const parkingTest : parkingSpotSchema = {
 const parkingSpots : parkingSpotSchema[] = [parkingTest];
 
 const App = () => {
-  return (
-    <div>
-      <Map parkingSpots = {parkingSpots} />
-    </div>
-  );
+
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Particle/>}/>
+                <Route path="/maps" element={<Map parkingSpots = {parkingSpots} />}/>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
