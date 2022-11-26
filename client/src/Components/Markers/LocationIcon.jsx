@@ -3,5 +3,5 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import styles from "./styles.module.css"
 
 export const LocationIcon = () => {
-    return <LocationOnIcon />
+    return <LocationOnIcon fontSize="large" />
 }
