@@ -1,14 +1,16 @@
 import React from 'react';
-import { useCallback } from "react";
+import {useCallback} from "react";
 import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
+import {loadFull} from "tsparticles";
+import Street from "../Assets/parking.jpg"
+import "./style.css"
+import {Button, Typography} from '@mui/material';
+import {Link} from 'react-router-dom';
+import Grid from "@mui/material/Grid";
 
 function Particle() {
     const particlesInit = useCallback(async engine => {
         console.log(engine);
-        // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-        // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-        // starting from v2 you can add only the features you need reducing the bundle size
         await loadFull(engine);
     }, []);
 
@@ -16,86 +18,102 @@ function Particle() {
         await console.log(container);
     }, []);
     return (
-        <Particles
-        id="particles"
-        init={particlesInit}
-        loaded={particlesLoaded}
+        <div className="wrapper">
 
-        options={
-            {
-                background: {
-                    color: {
-                        value: "#0d47a1",
-                    },
-                },
-                fpsLimit: 120,
-                interactivity: {
-                    events: {
-                        onClick: {
-                            enable: true,
-                            mode: "push",
+            <Particles
+                id="particles"
+                init={particlesInit}
+                loaded={particlesLoaded}
+                options={
+                    {
+                        background: {
+                            // color: '#808080'
+                            image: `url(${Street})`,
+                            size: "100%",
+                            opacity: 1,
                         },
-                        onHover: {
-                            enable: true,
-                            mode: "repulse",
+                        fpsLimit: 120,
+                        interactivity: {
+                            events: {
+                                onClick: {
+                                    enable: true,
+                                    mode: "push",
+                                },
+                                onHover: {
+                                    enable: true,
+                                    mode: "repulse",
+                                },
+                                resize: true,
+                            },
+                            modes: {
+                                push: {
+                                    quantity: 4,
+                                },
+                                repulse: {
+                                    distance: 150,
+                                    duration: 0.1,
+                                },
+                            },
                         },
-                        resize: true,
-                    },
-                    modes: {
-                        push: {
-                            quantity: 4,
+                        particles: {
+                            color: {
+                                value: "#ffffff",
+                            },
+                            links: {
+                                color: "#ffffff",
+                                distance: 150,
+                                enable: true,
+                                opacity: 0.5,
+                                width: 1,
+                            },
+                            collisions: {
+                                enable: true,
+                            },
+                            move: {
+                                directions: "none",
+                                enable: true,
+                                outModes: {
+                                    default: "bounce",
+                                },
+                                random: false,
+                                speed: 2,
+                                straight: false,
+                            },
+                            number: {
+                                density: {
+                                    enable: true,
+                                    area: 800,
+                                },
+                                value: 100,
+                            },
+                            opacity: {
+                                value: 0.5,
+                            },
+                            shape: {
+                                type: "circle",
+                            },
+                            size: {
+                                value: {min: 1, max: 5},
+                            },
                         },
-                        repulse: {
-                            distance: 200,
-                            duration: 0.4,
-                        },
-                    },
-                },
-                particles: {
-                    color: {
-                        value: "#ffffff",
-                    },
-                    links: {
-                        color: "#ffffff",
-                        distance: 150,
-                        enable: true,
-                        opacity: 0.5,
-                        width: 1,
-                    },
-                    collisions: {
-                        enable: true,
-                    },
-                    move: {
-                        directions: "none",
-                        enable: true,
-                        outModes: {
-                            default: "bounce",
-                        },
-                        random: false,
-                        speed: 6,
-                        straight: false,
-                    },
-                    number: {
-                        density: {
-                            enable: true,
-                            area: 800,
-                        },
-                        value: 80,
-                    },
-                    opacity: {
-                        value: 0.5,
-                    },
-                    shape: {
-                        type: "circle",
-                    },
-                    size: {
-                        value: { min: 1, max: 5 },
-                    },
-                },
-                detectRetina: true,
-            }
-        }
-        />
+                        detectRetina: true,
+                    }
+                }
+            />,
+            <Grid container  direction="column" justifyContent="center" alignItems="center">
+                <Grid item className="title">
+                    <h1>Park your car smarter</h1>
+                </Grid>
+                <Grid item className="subtitle">
+                    <h2>Life is too short to search for the perfect parking spot by yourself</h2>
+                </Grid>
+                <Grid item className='button'>
+                    <Button variant="contained" component={Link} to="/maps">
+                        MAPS
+                    </Button>
+                </Grid>
+            </Grid>
+        </div>
     );
 }
 

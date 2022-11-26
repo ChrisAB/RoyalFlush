@@ -31,6 +31,7 @@ const parkingSpots : parkingSpotSchema[] = [parkingTest];
 const App = () => {
 
     return (
+
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Particle/>}/>
