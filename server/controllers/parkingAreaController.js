@@ -1,3 +1,6 @@
+import ParkingArea from '../models/parkingAreaModel';
+import ParkingArea from '../models/parkingAreaModel';
+
 const formidable = require('formidable');
 const fs = require('fs');
 const catchAsync = require("../utils/catchAsync");
@@ -36,3 +39,13 @@ exports.createParkingArea = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ status: 'success', data: {} });
 });
+
+export const getParkingArea = async (req,res) => {
+  try{
+      const parkingArea =await ParkingArea.find();
+      res.status(200).json(parkingArea);
+  }catch(error){
+    res.status(404).json({message : error.message});
+  }
+
+}
