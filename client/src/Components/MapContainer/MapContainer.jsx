@@ -8,8 +8,9 @@ import {SpotDetails} from '../SpotDetails/SpotDetails';
 import {Map} from "../Map/Map";
 
 export const MapContainer = (props) => {
-  const {parkingSpots} = props;
+  const {parkingAreas} = props;
   const [currentLocation, setCurrentLocation] = useState({lat: 45.760696, lng: 21.226788});
+  const [currentSpot, setCurrentSpot] = useState("");
 
   const success = (pos) => {
     setCurrentLocation(pos.coords);
@@ -27,23 +28,24 @@ export const MapContainer = (props) => {
 //navigator.geolocation.getCurrentPosition(success);
   }, []);
 
-  console.log(parkingSpots);
+  console.log(currentSpot);
   
-  const defaultProps = {
-    center: [59.938043, 30.337157],
-    zoom: 9,
-    greatPlaceCoords: {lat: 45.760696, lng: 21.226788}
-  };
   // console.log(currentLocation);
   
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2} >
-        <Grid item xs={12} md={8} style={{ height: '100vh', width: '100%' }}>
-            <Map currentLocation={currentLocation} />
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={9} style={{ height: '100vh', width: '100%' }}>
+            <Map currentLocation={currentLocation} parkingAreas={parkingAreas} setCurrentSpot={setCurrentSpot} currentSpot={currentSpot}/>
         </Grid>
-        <Grid item xs={12} md={4} style={{ height: '100vh' }}>
-          <SpotDetails />
+        <Grid container xs={12} md={3} style={{ height: '100vh' }} 
+        // spacing={2}
+        direction="column"
+        justifyContent="start"
+        alignItems="center"
+        sx={{background: "gray"}}
+        >
+          <SpotDetails spotDetails={currentSpot} />
         </Grid>
       </Grid>
     </Box>
