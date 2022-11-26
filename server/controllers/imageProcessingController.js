@@ -19,15 +19,16 @@ exports.processImage = catchAsync(async (req, res, next) => {
     if (!parkingArea)
       return res.status(404).json({ status: "notfound", data: {} });
 
-    parkingArea.numberOfFreeSpots = parkingArea.totalNumberOfSpots - len(coordinateList);
-    parkingArea.save();
-
     if (files && files.image) {
-      await fs.writeFile(`../public/${fields.cameraID}carParkPos`, parkingArea.positionFile);
-      const command = spawn("python3", ["utils/pythonScripts/ParkingSpaceDetector.py", `${files.image.filepath}`, `public/${fields.cameraID}carParkPos`]);
+      fs.writeFileSync(`public/${fields.cameraID}carParkPos`, parkingArea.positionFile);
+      const command = spawn("python3", ["utils/pythonScripts/parkingCarPosDecoder.py", `public/${fields.cameraID}carParkPos`]);
 
       command.stdout.on("data", async (data) => {
         const coordinateList = JSON.parse(`${data}`.split("(").join("[").split(")").join("]"));
+
+        parkingArea.numberOfFreeSpots = parkingArea.totalNumberOfSpots - coordinateList.length;
+        parkingArea.save();
+
         ParkingSpot.updateMany({
           parkingArea: parkingArea._id,
           coordinatesInImage: { x: { $in: coordinateList.map(x => x[0]) }, y: { $in: coordinateList.map(x => x[1]) } }
@@ -38,8 +39,6 @@ exports.processImage = catchAsync(async (req, res, next) => {
           coordinatesInImage: { x: { $nin: coordinateList.map(x => x[0]) }, y: { $nin: coordinateList.map(x => x[1]) } }
         },
           { isOccupied: false });
-
-        coordinateList.forEach(i => console.log(`1: ${i[0]} 2: ${i[1]}`));
       });
 
       command.stderr.on("data", async (data) => {
@@ -48,7 +47,7 @@ exports.processImage = catchAsync(async (req, res, next) => {
 
       command.on("close", data => {
         console.log("Command done");
-        fs.unlink(`../public/${fields.cameraID}carParkPos`);
+        fs.unlinkSync(`public/${fields.cameraID}carParkPos`);
         res.status(200).json({ status: 'success', data: {} });
       });
     }
