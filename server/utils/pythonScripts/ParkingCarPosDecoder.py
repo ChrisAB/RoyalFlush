@@ -10,13 +10,7 @@ with open(sys.argv[1], 'rb') as f:
   posList = pickle.load(f)
  
 for pos in posList:
-  x = 0
-  y = 0
-  if len(pos) == 2:
-    x, y = pos
-    carList.append((x, y, "None"))
-  else:
-    x, y, positionLabel = pos
-    carList.append((x, y, positionLabel))
+  X1, Y1, X2, Y2, positionLabel = pos
+  carList.append((X1, Y1, X2, Y2, positionLabel))
 
 print(carList)

@@ -12,44 +12,46 @@ exports.createParkingArea = catchAsync(async (req, res, next) => {
   form.parse(req, async (err, fields, files) => {
     if (err ||
       !fields ||
-      !fields.lat || !fields.long || !fields.name || !fields.totalNumberOfSpots || !fields.parkingCategory || !fields.identificationNumber ||
+      !fields.lat || !fields.long || !fields.name || !fields.parkingCategory || !fields.identificationNumber ||
       !files ||
       !files.positionFile) return new AppError(err.message, 400);
 
-    const { lat, long, name, totalNumberOfSpots, parkingCategory, identificationNumber } = fields;
+    const { lat, long, name, parkingCategory, identificationNumber } = fields;
 
     const positionFile = await fs.readFileSync(files.positionFile.filepath);
     if (files && files.positionFile) {
       if (await ParkingArea.findOne({ identificationNumber: identificationNumber }) != null)
         return res.status(400).json({ status: 'fail', data: { message: "Parking Area already exists" } });
 
-      const parkingArea = await ParkingArea.create({
-        coordinates: {
-          lat: lat,
-          long: long
-        },
-        name: name,
-        totalNumberOfSpots: totalNumberOfSpots,
-        numberOfFreeSpots: 0,
-        parkingCategory: parkingCategory,
-        positionFile: positionFile,
-        identificationNumber: identificationNumber
-      });
-
       const command = spawn("python3", ["utils/pythonScripts/ParkingCarPosDecoder.py", `${files.positionFile.filepath}`]);
 
       command.stdout.on("data", async (data) => {
         const coordinateList = JSON.parse(`${data}`.split("(").join("[").split(")").join("]").replace(/'/g, "\""));
 
+        const parkingArea = await ParkingArea.create({
+          coordinates: {
+            lat: lat,
+            long: long
+          },
+          name: name,
+          totalNumberOfSpots: coordinateList.length,
+          numberOfFreeSpots: 0,
+          parkingCategory: parkingCategory,
+          positionFile: positionFile,
+          identificationNumber: identificationNumber
+        });
+
         coordinateList.forEach((coordinates) => {
-          console.log(`Adding parkingSpot (${coordinates[0]}, ${coordinates[1]}) with identificationNumber ${coordinates[2]}`);
+          console.log(`Adding parkingSpot (${coordinates[0]}, ${coordinates[1]}, ${coordinates[2]}, ${coordinates[3]}) with identificationNumber ${coordinates[2]}`);
           ParkingSpot.create({
             parkingArea: parkingArea._id,
             coordinatesInImage: {
-              x: coordinates[0],
-              y: coordinates[1]
+              X1: coordinates[0],
+              Y1: coordinates[1],
+              X2: coordinates[2],
+              Y2: coordinates[3]
             },
-            identificationNumber: coordinates[2],
+            identificationNumber: coordinates[4],
             isOccupied: false,
           })
         });
