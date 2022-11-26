@@ -2,9 +2,10 @@ const dotenv = require('dotenv').config({ path: './config.env' });
 const app = require('./app');
 const mongoose = require('mongoose');
 
-const uri = process.env.MONGODB_URL;
+let mongoURL = process.env.MONGODB_URL;
+mongoURL = mongoURL.replace('<password>', process.env.DB_PASSWORD)
 
-mongoose.connect(uri, {
+mongoose.connect(mongoURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log("Successfully connected to database")).catch(err => {
