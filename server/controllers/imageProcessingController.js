@@ -21,10 +21,10 @@ exports.processImage = catchAsync(async (req, res, next) => {
 
     if (files && files.image) {
       fs.writeFileSync(`public/${fields.cameraID}carParkPos`, parkingArea.positionFile);
-      const command = spawn("python3", ["utils/pythonScripts/parkingCarPosDecoder.py", `public/${fields.cameraID}carParkPos`]);
+      const command = spawn("python3", ["utils/pythonScripts/ParkingCarPosDecoder.py", `public/${fields.cameraID}carParkPos`]);
 
       command.stdout.on("data", async (data) => {
-        const coordinateList = JSON.parse(`${data}`.split("(").join("[").split(")").join("]"));
+        const coordinateList = JSON.parse(`${data}`.replace(/\(/g, "\[").replace(/\)/g, "\]").replace(/'/g, "\""));
 
         parkingArea.numberOfFreeSpots = parkingArea.totalNumberOfSpots - coordinateList.length;
         parkingArea.save();
