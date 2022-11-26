@@ -13,13 +13,16 @@ except:
 
 
 X1, Y1, X2, Y2 = 0, 0, 0, 0
+clicked = False
 
 def mouseClick(events, x, y, flags, params):
-  global X1, Y1, X2, Y2
-  if events == cv2.EVENT_LBUTTONDOWN:
-      X1 = x
-      Y1 = y
-  if events == cv2.EVENT_LBUTTONUP:
+  global X1, Y1, X2, Y2, clicked
+  if events == cv2.EVENT_LBUTTONDOWN and clicked == False:
+    clicked = True
+    X1 = x
+    Y1 = y
+  if events == cv2.EVENT_LBUTTONUP and clicked == True:
+    clicked = False
     X2 = x
     Y2 = y
     positionLabel = easygui.enterbox("Label for this spot")
