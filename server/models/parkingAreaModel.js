@@ -9,7 +9,7 @@ const parkingAreaSchema = new Schema({
   },
   name: { type: String, required: true },
   totalNumberOfSpots: { type: Number, required: true, min: 1, max: 2048 },
-  numberOfFreeSpots: { type: Number, required: true, min: 1, max: 2048 },
+  numberOfFreeSpots: { type: Number, required: true, min: 0, max: 2048 },
   parkingCategory: { type: String },
   positionFile: { type: Buffer, required: true },
   identificationNumber: { type: String, required: true, unique: true }
