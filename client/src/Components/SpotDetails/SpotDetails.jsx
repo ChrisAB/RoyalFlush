@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid'
 
 export const SpotDetails = () => {
     return <Grid
-        style={{ height: "90vh" }}
+        style={{ height: "100vh" }}
         //alignItems="stretch"
 
         container
@@ -15,10 +15,10 @@ export const SpotDetails = () => {
         alignItems="center"
         sx={{background: "gray"}}
     >
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{textAlign: "center"}}>
             something
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{textAlign: "center"}}>
             another
         </Grid>
     </Grid>

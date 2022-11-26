@@ -1,5 +1,5 @@
 import React from 'react';
-import {Map} from './Components/Map/Map'
+import {MapContainer} from './Components/MapContainer/MapContainer'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import HomePage from "./HomePage";
 import Particle from './Components/Particle';
@@ -34,7 +34,7 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Particle/>}/>
-                <Route path="/maps" element={<Map parkingSpots = {parkingSpots} />}/>
+                <Route path="/maps" element={<MapContainer parkingSpots = {parkingSpots} />}/>
             </Routes>
         </BrowserRouter>
     );
