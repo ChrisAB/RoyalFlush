@@ -66,3 +66,8 @@ exports.createParkingArea = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+exports.getParkingArea = cathAsync(async (req, res) => {
+  const parkingArea = await ParkingArea.find();
+  res.status(200).json(parkingArea);
+});

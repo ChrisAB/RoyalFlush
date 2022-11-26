@@ -49,6 +49,7 @@ app.use(express.static(`${__dirname}/public`));
 
 app.use('/api/v1/image/process', imageProcessingController.processImage);
 app.post('/api/v1/parkingArea', parkingAreaController.createParkingArea);
+app.get('/api/v1/parkingArea',parkingAreaController.getParkingArea);
 
 app.use('/api/v1/check', (req, res, next) => {
   res.status(200).json({});
