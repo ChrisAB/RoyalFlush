@@ -11,6 +11,8 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const imageProcessingController = require('./controllers/imageProcessingController');
 const parkingAreaController = require('./controllers/parkingAreaController');
+const parkingSpotController = require('./controllers/parkingSpotController');
+const ParkingSpot = require('./models/parkingSpotModel');
 
 const app = express();
 
@@ -50,6 +52,8 @@ app.use(express.static(`${__dirname}/public`));
 app.use('/api/v1/image/process', imageProcessingController.processImage);
 app.post('/api/v1/parkingArea', parkingAreaController.createParkingArea);
 app.get('/api/v1/parkingArea',parkingAreaController.getParkingArea);
+app.get('/api/v1/parkingSpot/:id',parkingSpotController.getParkingSpotsFromArea);
+app.get('/api/v1/parkingSpot/',parkingSpotController.getAllParkingSpots);
 
 app.use('/api/v1/check', (req, res, next) => {
   res.status(200).json({});
