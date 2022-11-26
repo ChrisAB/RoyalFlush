@@ -19,3 +19,11 @@
     height: 100px; 
     border: 1px solid black;
 }
+
+.info{
+    width: "100%";
+    display: "flex";
+    justify-content: "start";
+    align-items: "center";
+     font: "Arial";
+}

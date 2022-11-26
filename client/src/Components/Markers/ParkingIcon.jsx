@@ -14,7 +14,9 @@ export const ParkingIcon = ({freeSpots, parkingCategory}) => {
             vertical: 'top',
             horizontal: 'right',
         }} sx={badgeStyle} >
-            <DirectionsCarIcon fontSize='large'  sx={{ color: parkingCategory }}/>
+            <DirectionsCarIcon fontSize='large' />
         </Badge>
     </>
 }
+
+// sx={{ color: parkingCategory }}
