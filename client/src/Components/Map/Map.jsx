@@ -13,7 +13,7 @@ export const Map = () => {
 
   useEffect(() => {
   navigator.geolocation?.getCurrentPosition((position) => {
-    var pos = {
+    let pos = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     }; 
