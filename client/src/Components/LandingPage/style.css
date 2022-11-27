@@ -1,0 +1,25 @@
+.button {
+    display: flex;
+}
+
+.title {
+    font-size: 50px;
+    padding: 40px;
+    font-family: arial, serif;
+    color: #eed9c4;
+    text-align: center;
+    top: 40%;
+    width: 100%;
+    z-index: 0;
+}
+
+.subtitle {
+    font-size: 20px;
+    font-family: arial, serif;
+    padding: 20px;
+    color: darkslategray;
+    text-align: center;
+    top: 40%;
+    width: 100%;
+    z-index: 0;
+}
