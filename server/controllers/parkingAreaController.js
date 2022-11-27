@@ -42,7 +42,7 @@ exports.createParkingArea = catchAsync(async (req, res, next) => {
         });
 
         coordinateList.forEach((coordinates) => {
-          console.log(`Adding parkingSpot (${coordinates[0]}, ${coordinates[1]}, ${coordinates[2]}, ${coordinates[3]}) with identificationNumber ${coordinates[2]}`);
+          console.log(`Adding parkingSpot (${coordinates[0]}, ${coordinates[1]}, ${coordinates[2]}, ${coordinates[3]}) with identificationNumber ${coordinates[4]}`);
           ParkingSpot.create({
             parkingArea: parkingArea._id,
             coordinatesInImage: {
@@ -71,5 +71,6 @@ exports.createParkingArea = catchAsync(async (req, res, next) => {
 
 exports.getParkingArea = catchAsync(async (req, res) => {
   const parkingArea = await ParkingArea.find();
+  console.log(parkingArea);
   res.status(200).json(parkingArea);
 });

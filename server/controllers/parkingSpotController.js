@@ -6,8 +6,8 @@ const ParkingArea = require("../models/parkingAreaModel");
 const ParkingSpot = require("../models/parkingSpotModel");
 
 exports.getParkingSpotsFromArea = catchAsync(async (req, res) => {
-  const { id: _id } = req.params;
-  const parkingSpot = await ParkingSpot.find({ ParkingArea: _id });
+  const { id } = req.params;
+  const parkingSpot = await ParkingSpot.find({ parkingArea: id });
   res.status(200).json(parkingSpot);
 });
 
