@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./styles.module.css"
 import image from "./parking.jpg"
 import Grid from '@mui/material/Grid'
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import ClassIcon from '@mui/icons-material/Class';  
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
@@ -10,8 +10,10 @@ import { Divider } from '@mui/material';
 import { getCarColor } from "../Markers/ParkingIcon";
 
 export const SpotDetails = (props) => {
-    const {spotDetails} = props;
+    const {spotDetails, parkingSpots} = props;
     const carColor = getCarColor(spotDetails.numberOfFreeSpots / spotDetails.totalNumberOfSpots);
+    const actualParkingSpots = parkingSpots?.filter((ps) => ps.parkingArea == spotDetails._id && ps.isOccupied == false);
+    console.log(actualParkingSpots);
 
     return spotDetails && <>
         <Grid item md={1} style={{width: "100%", display: "flex", justifyContent: "start", alignItems: "center"}}>
@@ -42,5 +44,13 @@ export const SpotDetails = (props) => {
                 Parking category: {spotDetails?.parkingCategory}
             </Typography>     
         </Grid>
+        <Grid item style={{width: "100%", display: "flex", justifyContent: "start", alignItems: "center", font: "Arial"}}>
+        <Box item md={1} sx={{width: "100%",  display: "flex", marginLeft: "20px", marginRight:"15px", flexWrap: "wrap" }}>
+            {actualParkingSpots?.map((aps) => {return <Typography style={{fontSize: "15px", marginLeft: "3px", marginTop: "10px", borderRadius: "50px", backgroundColor:"lightgreen", padding: "5px 8px"}} >
+                {aps.identificationNumber}
+            </Typography>
+            })}
+            </Box>
+        </Grid>
     </>
-}
+}   

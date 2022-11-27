@@ -27,3 +27,12 @@
     align-items: "center";
      font: "Arial";
 }
+
+.lettercircle {
+    font-family: Helvetica, sans-serif;
+    background-color: #009cda;
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 50%;
+    font-size: 28px;
+  }

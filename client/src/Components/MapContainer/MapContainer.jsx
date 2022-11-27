@@ -10,57 +10,37 @@ import image from "../SpotDetails/parking.jpg";
 import {fetchParkingSpots} from "../../Api/index";
 
 export const MapContainer = (props) => {
-  const {parkingAreas} = props;
+  const {parkingAreas, parkingSpots} = props;
   const [currentLocation, setCurrentLocation] = useState({lat: 45.760696, lng: 21.226788});
   const [currentSpot, setCurrentSpot] = useState("");
-  const [parkingSpots, setParkingSpots] = useState();
+ // const [parkingSpots, setParkingSpots] = useState();
 
   const success = (pos) => {
     setCurrentLocation(pos.coords);
   }
-
-  const getParkingSpots = (codeArea) => {
-    fetchParkingSpots(codeArea)
-      .then((res) => setParkingSpots(res.data))
-      .then(() => console.log(parkingSpots))
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-  navigator.geolocation?.getCurrentPosition((position) => {
-    let pos = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
-    }; 
-    setCurrentLocation(pos)     
-  })
-//navigator.geolocation.getCurrentPosition(success);
-  }, []);
-
-  
-  // console.log(currentLocation);
-  
+  const size = currentSpot ? 9: 12;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={9} style={{ height: '100vh', width: '100%' }}>
+        <Grid item xs={12} md={size} style={{ height: '100vh', width: '100%' }}>
             <Map 
               currentLocation={currentLocation} 
               parkingAreas={parkingAreas} 
               setCurrentSpot={setCurrentSpot} 
               currentSpot={currentSpot}
-              getParkingSpots={getParkingSpots}
+              // getParkingSpots={getParkingSpots}
+              // setParkingSpots={setParkingSpots}
             />
         </Grid>
         <Grid container xs={12} md={3} style={{ height: '100vh'}} 
         // component={Box}
         // display={{ xs: "none", md: {display} }}
-        spacing={1}
+        spacing={2}
         direction="column"
         justifyContent="start"
         alignItems="center"
         >
-          <SpotDetails spotDetails={currentSpot} />
+          <SpotDetails spotDetails={currentSpot} parkingSpots={parkingSpots} />
         </Grid>
       </Grid>
     </Box>
