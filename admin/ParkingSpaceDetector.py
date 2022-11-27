@@ -10,14 +10,14 @@ with open(sys.argv[2], 'rb') as f:
 img = cv2.imread(sys.argv[1])
 
 def checkParkingSpace(imgPro):
-  occupiedPositionsList = []
+  freePositionsList = []
   spaceCounter = 0
 
   for pos in posList:
       X1, Y1, X2, Y2, positionLabel = pos
 
       imgCrop = imgPro[Y1:Y2, X1:X2]
-      # cv2.imshow(str(x * y), imgCrop)
+      # cv2.imshow(str(X1 * Y1), imgCrop)
       count = cv2.countNonZero(imgCrop)
 
       threshold = (X2 - X1) * (Y2 - Y1)/5
@@ -25,7 +25,7 @@ def checkParkingSpace(imgPro):
       if count < threshold:
           color = (0, 255, 0)
           thickness = 5
-          occupiedPositionsList.append((X1, Y1, X2, Y2))
+          freePositionsList.append((X1, Y1, X2, Y2))
           spaceCounter += 1
       else:
           color = (0, 0, 255)
@@ -38,7 +38,7 @@ def checkParkingSpace(imgPro):
   cvzone.putTextRect(img, f'Free: {spaceCounter}/{len(posList)}', (100, 50), scale=3,
                           thickness=5, offset=20, colorR=(0,200,0))
   
-  return occupiedPositionsList
+  return freePositionsList
  
 def processImage(baseImg):
   imgGray = cv2.cvtColor(baseImg, cv2.COLOR_BGR2GRAY)
