@@ -6,16 +6,25 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import {SpotDetails} from '../SpotDetails/SpotDetails';
 import {Map} from "../Map/Map";
+import image from "../SpotDetails/parking.jpg";
+import {fetchParkingSpots} from "../../Api/index";
 
 export const MapContainer = (props) => {
   const {parkingAreas} = props;
   const [currentLocation, setCurrentLocation] = useState({lat: 45.760696, lng: 21.226788});
   const [currentSpot, setCurrentSpot] = useState("");
+  const [parkingSpots, setParkingSpots] = useState();
 
   const success = (pos) => {
     setCurrentLocation(pos.coords);
-    console.log(currentLocation);
   }
+
+  const getParkingSpots = (codeArea) => {
+    fetchParkingSpots(codeArea)
+      .then((res) => setParkingSpots(res.data))
+      .then(() => console.log(parkingSpots))
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
   navigator.geolocation?.getCurrentPosition((position) => {
@@ -28,7 +37,6 @@ export const MapContainer = (props) => {
 //navigator.geolocation.getCurrentPosition(success);
   }, []);
 
-  console.log(currentSpot);
   
   // console.log(currentLocation);
   
@@ -36,14 +44,21 @@ export const MapContainer = (props) => {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={9} style={{ height: '100vh', width: '100%' }}>
-            <Map currentLocation={currentLocation} parkingAreas={parkingAreas} setCurrentSpot={setCurrentSpot} currentSpot={currentSpot}/>
+            <Map 
+              currentLocation={currentLocation} 
+              parkingAreas={parkingAreas} 
+              setCurrentSpot={setCurrentSpot} 
+              currentSpot={currentSpot}
+              getParkingSpots={getParkingSpots}
+            />
         </Grid>
-        <Grid container xs={12} md={3} style={{ height: '100vh' }} 
-        // spacing={2}
+        <Grid container xs={12} md={3} style={{ height: '100vh'}} 
+        // component={Box}
+        // display={{ xs: "none", md: {display} }}
+        spacing={1}
         direction="column"
         justifyContent="start"
         alignItems="center"
-        sx={{background: "gray"}}
         >
           <SpotDetails spotDetails={currentSpot} />
         </Grid>

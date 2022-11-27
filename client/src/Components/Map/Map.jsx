@@ -9,30 +9,22 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import {SpotDetails} from '../SpotDetails/SpotDetails';
 
-export const Map = (props) => {
-  const {currentLocation, parkingAreas, setCurrentSpot, currentSpot} = props;
-  console.log(currentSpot);
 
-  const cars = () => {
-    parkingAreas?.map((ps) => 
-      <IconButton key={ps._id} lat={ps.coordinates.lat} lng={ps.coordinates.long} onClick={console.log("aici")}>
-        <ParkingIcon freeSpots={ps.numberOfFreeSpots} parkingCategory={ps.parkingCategory}/>
-      </IconButton>
-    );
-  }
+
+export const Map = (props) => {
+  const {currentLocation, parkingAreas, setCurrentSpot, currentSpot, getParkingSpots} = props;
 
   return  <GoogleMap
     bootstrapURLKeys={{key: "AIzaSyCX7DVZTuz23vmFeYrdhw55kD-j_d8U_uo"}}
     center={[currentLocation?.lat, currentLocation?.lng]}
     zoom={15}>
-    <LocationIcon lat={currentLocation?.lat} lng={currentLocation?.lng}  
-  />
+    <LocationIcon lat={currentLocation?.lat} lng={currentLocation?.lng} /> 
     {
       parkingAreas?.map((ps) => {
 
         return <Marker key={ps._id} lat={ps.coordinates.lat} lng={ps.coordinates.long} >
-          <IconButton onClick={() => {console.log("aici"); setCurrentSpot(ps)} }>
-            <ParkingIcon freeSpots={ps.numberOfFreeSpots} parkingCategory={ps.parkingCategory}/>
+          <IconButton onClick={() => {setCurrentSpot(ps); getParkingSpots(ps._id)} }>
+            <ParkingIcon freeSpots={ps.numberOfFreeSpots} parkingSpots={ps}/>
           </IconButton>
         </Marker>
       })
