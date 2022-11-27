@@ -42,18 +42,18 @@ def checkParkingSpace(imgPro):
  
 def processImage(baseImg):
   imgGray = cv2.cvtColor(baseImg, cv2.COLOR_BGR2GRAY)
-  imgBlur = cv2.GaussianBlur(imgGray, (3, 3), 1)
+  imgBlur = cv2.GaussianBlur(imgGray, (5, 5), 0)
   imgThreshold = cv2.adaptiveThreshold(imgBlur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                         cv2.THRESH_BINARY_INV, 25, 16)
-  imgMedian = cv2.medianBlur(imgThreshold, 5)
+  imgMedian = cv2.medianBlur(imgThreshold, 7)
   kernel = np.ones((3, 3), np.uint8)
   return cv2.dilate(imgMedian, kernel, iterations=1)
 
 processedImage = processImage(img)
 parkingSpaceSituation = checkParkingSpace(processedImage)
-cv2.imshow("Image", img)
+# cv2.imshow("Image", img)
 # cv2.imshow("ImageBlur", imgBlur)
 # cv2.imshow("ImageThres", imgMedian)
-cv2.waitKey(0)
+# cv2.waitKey(0)
 
 print(parkingSpaceSituation)
