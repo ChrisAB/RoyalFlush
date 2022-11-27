@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {MapContainer} from './Components/MapContainer/MapContainer'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import HomePage from "./HomePage";
-import Particle from './Components/Particle';
+import Particle from './Components/LandingPage/Particle';
 import { fetchParkingAreas, fetchParkingSpots } from './Api';
 import { AxiosResponse } from "axios";
 
