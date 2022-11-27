@@ -32,7 +32,12 @@ const App = () => {
   const [parkingAreas, setParkingAreas] = useState<parkingAreaSchema[]>();
   const [parkingSpots, setParkingSpots] = useState();
 
+  const bodyStyle = document.body.style;
 
+  useEffect(() => {
+   bodyStyle.overflowY = "hidden";
+  }, [])
+ 
 
   const getParkingSpots = () => {
     fetchAllParkingSpots()
