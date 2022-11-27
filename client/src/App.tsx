@@ -31,24 +31,12 @@ export interface parkingAreaSchema {
 // const parkingAreas : parkingAreaSchema[] = [parkingTest];
 const App = () => {
   const [parkingAreas, setParkingAreas] = useState<parkingAreaSchema[]>();
-  const [parkingSpots, setParkingSpots] = useState();
   
   useEffect (() => {
     fetchParkingAreas()
     .then((res) => setParkingAreas(res.data))
     .catch((err) => console.log(err));
   }, []);
-
-
-  useEffect (() => {
-    fetchParkingSpots("6382384f54c87133cd25744")
-    .then((res) => setParkingSpots(res.data))
-    .catch((err) => console.log(err));
-  }, []);
-
-
-
-  console.log(parkingSpots);
 
   return (
       <BrowserRouter>
