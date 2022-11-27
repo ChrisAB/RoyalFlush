@@ -2,9 +2,9 @@ import React from 'react';
 import {useCallback} from "react";
 import Particles from "react-tsparticles";
 import {loadFull} from "tsparticles";
-import Street from "../Assets/parking.jpg"
+import Street from "../../Assets/parking.jpg"
 import "./style.css"
-import {Button, Typography} from '@mui/material';
+import {Button} from '@mui/material';
 import {Link} from 'react-router-dom';
 import Grid from "@mui/material/Grid";
 
@@ -20,7 +20,7 @@ function Particle() {
     return (
         <div className="wrapper">
 
-            <Particles
+            <Particles style={{opacity: 0.9}}
                 id="particles"
                 init={particlesInit}
                 loaded={particlesLoaded}
@@ -30,7 +30,7 @@ function Particle() {
                             // color: '#808080'
                             image: `url(${Street})`,
                             size: "100%",
-                            opacity: 1,
+                            opacity: 0.1,
                         },
                         fpsLimit: 120,
                         interactivity: {
@@ -108,8 +108,8 @@ function Particle() {
                     <h2>Life is too short to search for the perfect parking spot by yourself</h2>
                 </Grid>
                 <Grid item className='button'>
-                    <Button variant="contained" component={Link} to="/maps">
-                        MAPS
+                    <Button variant="contained" style={{backgroundColor: "#eed9c4", color: "black"}} component={Link} to="/maps">
+                        go to MAPS
                     </Button>
                 </Grid>
             </Grid>
