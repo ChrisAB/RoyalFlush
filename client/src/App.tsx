@@ -1,8 +1,7 @@
 import React from 'react';
 import {Map} from './Components/Map/Map'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import HomePage from "./HomePage";
-import Particle from './Components/Particle';
+import Particle from './Components/LandingPage/Particle';
 
 export interface parkingSpotSchema {
   coordinates: {
