@@ -21,30 +21,45 @@ exports.processImage = catchAsync(async (req, res, next) => {
 
     if (files && files.image) {
       fs.writeFileSync(`public/${fields.cameraID}carParkPos`, parkingArea.positionFile);
-      const command = spawn("python3", ["utils/pythonScripts/parkingCarPosDecoder.py", `public/${fields.cameraID}carParkPos`]);
+      const command = spawn("python3", ["utils/pythonScripts/ParkingSpaceDetector.py", files.image.filepath, `public/${fields.cameraID}carParkPos`]);
 
       command.stdout.on("data", async (data) => {
-        const coordinateList = JSON.parse(`${data}`.split("(").join("[").split(")").join("]"));
+        const coordinateList = JSON.parse(`${data}`.replace(/\(/g, "\[").replace(/\)/g, "\]").replace(/'/g, "\""));
 
-        parkingArea.numberOfFreeSpots = parkingArea.totalNumberOfSpots - coordinateList.length;
+        parkingArea.numberOfFreeSpots = coordinateList.length;
         parkingArea.save();
+        console.log(coordinateList);
+        const parkingSpots = await ParkingSpot.find({ parkingArea: parkingArea._id });
 
-        ParkingSpot.updateMany({
-          parkingArea: parkingArea._id,
-          coordinatesInImage: {
-            X1: { $in: coordinateList.map(x => x[0]) }, Y1: { $in: coordinateList.map(x => x[1]) },
-            X2: { $in: coordinateList.map(x => x[2]) }, Y2: { $in: coordinateList.map(x => x[3]) }
+        parkingSpots.forEach((parkingSpot) => {
+          const parkingSpotCoordinates = parkingSpot.coordinatesInImage;
+          console.log(`Parking Spot ${parkingSpot.identificationNumber} (${parkingSpotCoordinates.X1}, ${parkingSpotCoordinates.Y1}, ${parkingSpotCoordinates.X2}, ${parkingSpotCoordinates.Y2})`);
+          if (coordinateList.find(x => x[0] == parkingSpotCoordinates.X1 && x[1] == parkingSpotCoordinates.Y1 && x[2] == parkingSpotCoordinates.X2 && x[3] == parkingSpotCoordinates.Y2)) {
+            console.log(`Parking spot is free (${parkingSpotCoordinates.X1}, ${parkingSpotCoordinates.Y1}, ${parkingSpotCoordinates.X2}, ${parkingSpotCoordinates.Y2})`);
+            parkingSpot.isOccupied = false;
+            parkingSpot.save();
+          } else {
+            parkingSpot.isOccupied = true;
+            parkingSpot.save();
           }
-        },
-          { isOccupied: true });
-        ParkingSpot.updateMany({
-          parkingArea: parkingArea._id,
-          coordinatesInImage: {
-            X1: { $nin: coordinateList.map(x => x[0]) }, Y1: { $nin: coordinateList.map(x => x[1]) },
-            X2: { $nin: coordinateList.map(x => x[2]) }, Y2: { $nin: coordinateList.map(x => x[3]) }
-          }
-        },
-          { isOccupied: false });
+        });
+
+        // ParkingSpot.updateMany({
+        //   parkingArea: parkingArea._id,
+        //   coordinatesInImage: {
+        //     X1: { $in: coordinateList.map(x => x[0]) }, Y1: { $in: coordinateList.map(x => x[1]) },
+        //     X2: { $in: coordinateList.map(x => x[2]) }, Y2: { $in: coordinateList.map(x => x[3]) }
+        //   }
+        // },
+        //   { isOccupied: true });
+        // ParkingSpot.updateMany({
+        //   parkingArea: parkingArea._id,
+        //   coordinatesInImage: {
+        //     X1: { $nin: coordinateList.map(x => x[0]) }, Y1: { $nin: coordinateList.map(x => x[1]) },
+        //     X2: { $nin: coordinateList.map(x => x[2]) }, Y2: { $nin: coordinateList.map(x => x[3]) }
+        //   }
+        // },
+        //   { isOccupied: false });
       });
 
       command.stderr.on("data", async (data) => {
