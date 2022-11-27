@@ -12,7 +12,7 @@ import {SpotDetails} from '../SpotDetails/SpotDetails';
 
 
 export const Map = (props) => {
-  const {currentLocation, parkingAreas, setCurrentSpot, currentSpot, getParkingSpots} = props;
+  const {currentLocation, parkingAreas, setCurrentSpot, currentSpot} = props;
 
   return  <GoogleMap
     bootstrapURLKeys={{key: "AIzaSyCX7DVZTuz23vmFeYrdhw55kD-j_d8U_uo"}}
@@ -23,7 +23,7 @@ export const Map = (props) => {
       parkingAreas?.map((ps) => {
 
         return <Marker key={ps._id} lat={ps.coordinates.lat} lng={ps.coordinates.long} >
-          <IconButton onClick={() => {setCurrentSpot(ps); getParkingSpots(ps._id)} }>
+          <IconButton onClick={() => {setCurrentSpot(ps); }}>
             <ParkingIcon freeSpots={ps.numberOfFreeSpots} parkingSpots={ps}/>
           </IconButton>
         </Marker>

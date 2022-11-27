@@ -10,21 +10,9 @@ import image from "../SpotDetails/parking.jpg";
 import {fetchParkingSpots} from "../../Api/index";
 
 export const MapContainer = (props) => {
-  const {parkingAreas} = props;
+  const {parkingAreas, parkingSpots} = props;
   const [currentLocation, setCurrentLocation] = useState({lat: 45.760696, lng: 21.226788});
   const [currentSpot, setCurrentSpot] = useState("");
-  const [parkingSpots, setParkingSpots] = useState();
-
-  const success = (pos) => {
-    setCurrentLocation(pos.coords);
-  }
-
-  const getParkingSpots = (codeArea) => {
-    fetchParkingSpots(codeArea)
-      .then((res) => setParkingSpots(res.data))
-      .then(() => console.log(parkingSpots))
-      .catch((err) => console.log(err));
-  };
 
   useEffect(() => {
   navigator.geolocation?.getCurrentPosition((position) => {
@@ -37,19 +25,20 @@ export const MapContainer = (props) => {
 //navigator.geolocation.getCurrentPosition(success);
   }, []);
 
+  const size = currentSpot ? 9: 12;
+
   
   // console.log(currentLocation);
   
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={9} style={{ height: '100vh', width: '100%' }}>
+        <Grid item xs={12} md={size} style={{ height: '100vh', width: '100%' }}>
             <Map 
               currentLocation={currentLocation} 
               parkingAreas={parkingAreas} 
               setCurrentSpot={setCurrentSpot} 
               currentSpot={currentSpot}
-              getParkingSpots={getParkingSpots}
             />
         </Grid>
         <Grid container xs={12} md={3} style={{ height: '100vh'}} 
@@ -60,7 +49,7 @@ export const MapContainer = (props) => {
         justifyContent="start"
         alignItems="center"
         >
-          <SpotDetails spotDetails={currentSpot} />
+          <SpotDetails spotDetails={currentSpot} parkingSpots={parkingSpots}/>
         </Grid>
       </Grid>
     </Box>
