@@ -4,12 +4,6 @@ import {Marker} from "react-google-maps";
 import {LocationIcon} from "../Markers/LocationIcon";
 import {ParkingIcon} from "../Markers/ParkingIcon";
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import {SpotDetails} from '../SpotDetails/SpotDetails';
-
-
 
 export const Map = (props) => {
   const {currentLocation, parkingAreas, setCurrentSpot, currentSpot} = props;

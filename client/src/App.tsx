@@ -3,7 +3,6 @@ import {MapContainer} from './Components/MapContainer/MapContainer'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Particle from './Components/LandingPage/Particle';
 import { fetchParkingAreas, fetchAllParkingSpots } from './Api';
-import { AxiosResponse } from "axios";
 
 export interface parkingAreaSchema {
   coordinates: {
@@ -14,20 +13,9 @@ export interface parkingAreaSchema {
   totalNumberOfSpots: Number;
   numberOfFreeSpots: Number;
   parkingCategory: String;
-  //positionFile: Buffer;
   indentificationNumber: String;
 }
 
-// const parkingTest : parkingAreaSchema = {
-//   coordinates: {lat: "45.790698", lng: "21.226782"},
-//   name: "Parking1",
-//   totalNumberOfSpots: 4,
-//   numberOfFreeSpots: 2,
-//   parkingCategory: "green",
-//   indentificationNumber: "1"
-// }
-
-// const parkingAreas : parkingAreaSchema[] = [parkingTest];
 const App = () => {
   const [parkingAreas, setParkingAreas] = useState<parkingAreaSchema[]>();
   const [parkingSpots, setParkingSpots] = useState();

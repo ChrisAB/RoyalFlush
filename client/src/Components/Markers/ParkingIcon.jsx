@@ -1,14 +1,6 @@
-import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import { Badge } from '@mui/material';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 
-
-
-// const carStyle = {
-//   "& .MuiSvgIcon-root": {
-//     backgroundColor: "green",
-//   }
-// }
 export const getCarColor = (percentage) => {
     let color = "#FF4500";
     if (percentage >= 0.5 ) {
@@ -43,5 +35,3 @@ export const ParkingIcon = ({freeSpots, parkingSpots}) => {
         </Badge>
     </>
 }
-
-// sx={{ color: parkingCategory }}
