@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {MapContainer} from './Components/MapContainer/MapContainer'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Particle from './Components/LandingPage/Particle';
-import { fetchParkingAreas, fetchParkingSpots } from './Api';
+import { fetchParkingAreas, fetchAllParkingSpots } from './Api';
 import { AxiosResponse } from "axios";
 
 export interface parkingAreaSchema {
@@ -30,18 +30,28 @@ export interface parkingAreaSchema {
 // const parkingAreas : parkingAreaSchema[] = [parkingTest];
 const App = () => {
   const [parkingAreas, setParkingAreas] = useState<parkingAreaSchema[]>();
-  
+  const [parkingSpots, setParkingSpots] = useState();
+
+
+
+  const getParkingSpots = () => {
+    fetchAllParkingSpots()
+      .then((res) => {setParkingSpots(res.data);})
+      .catch((err) => console.log(err));
+  };
+
   useEffect (() => {
     fetchParkingAreas()
     .then((res) => setParkingAreas(res.data))
     .catch((err) => console.log(err));
+    getParkingSpots();
   }, []);
 
   return (
       <BrowserRouter>
           <Routes>
               <Route path="/" element={<Particle/>}/>
-              <Route path="/maps" element={<MapContainer parkingAreas = {parkingAreas} />}/>
+              <Route path="/maps" element={<MapContainer parkingAreas = {parkingAreas} parkingSpots={parkingSpots}/>}/>
           </Routes>
       </BrowserRouter>
   );
