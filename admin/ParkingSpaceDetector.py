@@ -20,7 +20,7 @@ def checkParkingSpace(imgPro):
       # cv2.imshow(str(X1 * Y1), imgCrop)
       count = cv2.countNonZero(imgCrop)
 
-      threshold = (X2 - X1) * (Y2 - Y1)/5
+      threshold = (X2 - X1) * (Y2 - Y1)/4.5
 
       if count < threshold:
           color = (0, 255, 0)
@@ -42,7 +42,7 @@ def checkParkingSpace(imgPro):
  
 def processImage(baseImg):
   imgGray = cv2.cvtColor(baseImg, cv2.COLOR_BGR2GRAY)
-  imgBlur = cv2.GaussianBlur(imgGray, (5, 5), 0)
+  imgBlur = cv2.GaussianBlur(imgGray, (3, 3), 1)
   imgThreshold = cv2.adaptiveThreshold(imgBlur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                         cv2.THRESH_BINARY_INV, 25, 16)
   imgMedian = cv2.medianBlur(imgThreshold, 7)
